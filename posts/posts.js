@@ -12,6 +12,7 @@ let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection, {
 });
 
 
+
 let groupId = null; // Declare a variable to store the groupId
 
 const storage = new GridFsStorage({
