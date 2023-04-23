@@ -82,7 +82,7 @@ router.get("/alls", async (req, res) => {
         const steering = file.metadata.steering
         if (!groups[groupId]) {
           groups[groupId] = {
-            url: `https://ddautoja-backend-production.up.railway.app/api/post/assets/${file.filename}`,
+            url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
             brand: brand,
             model: model,
             year: year,
@@ -149,7 +149,7 @@ router.get("/all/:groupId", async (req, res) => {
 
   const urls = files.map((file) =>{
      return {
-      url:`https://ddautoja-backend-production.up.railway.app/api/post/assets/${file.filename}`,
+      url:`https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
       brand:file.metadata.brand,
       color:file.metadata.color,
       model: file.metadata.model,
@@ -227,7 +227,7 @@ router.get("/vehicles/:bodyType", async (req, res) => {
         const steering = file.metadata.steering
         if (!groups[groupId]) {
           groups[groupId] = {
-            url: `https://ddautoja-backend-production.up.railway.app/api/post/assets/${file.filename}`,
+            url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
             brand: brand,
             model: model,
             year: year,
@@ -298,7 +298,7 @@ router.get("/featured", async (req, res) => {
           // Check if group already exists
           if (!groups[groupId]) {
             groups[groupId] = {
-              url: `https://ddautoja-backend-production.up.railway.app/api/post/assets/${file.filename}`,
+              url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
               brand: brand,
               model: model,
               year: year,
