@@ -19,9 +19,6 @@ const userSchema = new mongoose.Schema({
     trim: true,
     validator: [validator.isEmail, "Please provide a valid Email"],
   },
-  photos: {
-    type: String,
-  },
   password: {
     type: String,
     minlength: [4, "Password must have a minimum length of 4 characters! "],
