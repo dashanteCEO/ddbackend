@@ -188,6 +188,6 @@ router.post("/forgotpassword", async (req, res) => {
     if (error.isJoi === true) error.status = 422;
     console.log(error);
   }
-});
+}); 
   
 module.exports = { router, isUserLoggedIn }; 
