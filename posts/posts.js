@@ -18,19 +18,6 @@ const storage = new GridFsStorage({
   file: (req, file) => {
     const fn = async (req) => {
       const { filename } = await GridFsStorage.generateBytes();
-      const brand= req.body.brand;
-      const year= req.body.year;
-      const color= req.body.color;
-      const bodyType= req.body.bodyType;
-      const model= req.body.model;
-      const specs= req.body.specs;
-      const seats= req.body.seats;
-      const mileage= req.body.mileage;
-      const feul= req.body.feul;
-      const trim= req.body.trim;
-      const transmission= req.body.transmission;
-      const steering= req.body.steering;
-      const price= req.body.price;
       const id = new mongoose.Types.ObjectId();
       
       if (!groupId) {
@@ -41,27 +28,20 @@ const storage = new GridFsStorage({
           bucketName: "uploads",
           metadata: {
             groupId,
-            brand,
-            year,
-            color,
-            bodyType,
-            model,
-            specs,
-            seats,
-            mileage,
-            feul,
-            transmission,
-            steering,
-            price,
-            trim
+            brand: req.body.brand,
+            year: req.body.year,
+            color: req.body.color,
+            bodyType: req.body.bodyType,
+            model: req.body.model,
+            specs: req.body.specs,
+            seats: req.body.seats,
+            mileage: req.body.mileage,
+            feul: req.body.feul,
+            trim: req.body.trim,
+            transmission: req.body.transmission,
+            steering: req.body.steering,
+            price: req.body.price
           },
-        };
-      } else {
-        return {
-          id,
-          filename: `${id}-${filename}${path.extname(file.originalname)}`,
-          bucketName: "uploads",
-          metadata: {}
         };
       }
     };
