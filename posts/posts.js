@@ -69,7 +69,6 @@ const storage = new GridFsStorage({
   },
 });
 
-
 //Images
 const upload = multer({storage});
 
