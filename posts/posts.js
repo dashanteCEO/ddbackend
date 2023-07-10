@@ -22,6 +22,7 @@ const storage = new GridFsStorage({
       
       if (!groupId) {
         groupId = uuidv4();
+      }
         return {
           id,
           filename: `${id}-${filename}${path.extname(file.originalname)}`,
@@ -43,7 +44,6 @@ const storage = new GridFsStorage({
             price: req.body.price
           },
         };
-      }
     };
     return fn(req);
   },
