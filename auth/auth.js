@@ -190,4 +190,4 @@ router.post("/forgotpassword", async (req, res) => {
   }
 });
   
-module.exports = { router, isUserLoggedIn };
+module.exports = { router, isUserLoggedIn }; 
