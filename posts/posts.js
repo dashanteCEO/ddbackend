@@ -382,17 +382,15 @@ router.get("/search/:brand", async (req, res) => {
           return; // skip this file
         }
         const groupId = file.metadata.groupId;
-        const brand = file.metadata.brand;
-        const model = file.metadata.model;
+        const brand = file.metadata.brand[0]; // Access the first element of the brand array
+        const model = file.metadata.model[0]; // Access the first element of the model array
 
-        // Check if the brand already exists in the groups object
         if (!groups[brand]) {
           groups[brand] = {
             groupId: groupId,
             url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
-            brand: brand[0],
+            brand: brand,
             model: model,
-            // Add other properties here
           };
         }
       }
@@ -406,6 +404,7 @@ router.get("/search/:brand", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
 
 router.get("/searchretbrand/:brand", async (req, res) => {
   try {
