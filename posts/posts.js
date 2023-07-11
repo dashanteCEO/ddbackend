@@ -390,7 +390,7 @@ router.get("/search/:brand", async (req, res) => {
           groups[brand] = {
             groupId: groupId,
             url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
-            brand: brand,
+            brand: brand[0],
             model: model,
             // Add other properties here
           };
