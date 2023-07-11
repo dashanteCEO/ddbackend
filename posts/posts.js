@@ -404,9 +404,7 @@ router.get("/searchretbrand/:brand", async (req, res) => {
   try {
     const brand = req.params.brand; // Get the brand from the URL params
     const page = parseInt(req.query.page) || 1; // Get the page number from the query parameter, default to 1 if not provided
-    const files = await gfs
-      .find({ "metadata.brand": brand })
-      .toArray();
+    const files = await gfs.find({ "metadata.brand": brand }).toArray();
 
     // Does file exist?
     if (!files || files.length === 0) {
@@ -423,45 +421,50 @@ router.get("/searchretbrand/:brand", async (req, res) => {
           return; // skip this file
         }
         const groupId = file.metadata.groupId;
-        const brand = file.metadata.brand;
-        const model = file.metadata.model;
-        const color = file.metadata.color;
-        const year = file.metadata.year;
-        const bodyType = file.metadata.bodyType;
-        const specs = file.metadata.specs;
-        const mileage = file.metadata.mileage;
-        const seats = file.metadata.seats;
-        const feul = file.metadata.feul;
-        const transmission = file.metadata.transmission;
-        const steering = file.metadata.steering;
-        const price = file.metadata.price;
-        const trim = file.metadata.trim;
+
+        // Corrected variable names
+        const data = {
+          brand: file.metadata.brand,
+          year: file.metadata.year,
+          color: file.metadata.color,
+          bodyType: file.metadata.bodyType,
+          model: file.metadata.model,
+          specs: file.metadata.specs,
+          mileage: file.metadata.mileage,
+          feul: file.metadata.feul,
+          seats: file.metadata.seats,
+          transmission: file.metadata.transmission,
+          steering: file.metadata.steering,
+          price: file.metadata.price,
+          trim: file.metadata.trim,
+        };
+
         if (!groups[groupId]) {
           groups[groupId] = {
             url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
-            brand: brand,
-            model: model,
-            year: year,
-            color: color,
-            specs: specs,
-            bodyType: bodyType,
-            mileage: mileage,
-            feul: feul,
-            steering: steering,
-            transmission: transmission,
-            seats: seats,
-            price: price,
-            trim: trim,
+            // Corrected property names to use data object
+            brand: data.brand[0],
+            year: data.year[0],
+            color: data.color[0],
+            bodyType: data.bodyType[0],
+            model: data.model[0],
+            specs: data.specs[0],
+            mileage: data.mileage[0],
+            feul: data.feul[0],
+            seats: data.seats[0],
+            transmission: data.transmission[0],
+            steering: data.steering[0],
+            price: data.price[0],
+            trim: data.trim[0],
           };
         }
       }
     });
 
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 25;
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const endIndex = page * ITEMS_PER_PAGE;
-    const paginatedUrls = Object.values(groups)
-      .slice(startIndex, endIndex);
+    const paginatedUrls = Object.values(groups).slice(startIndex, endIndex);
 
     const totalPages = Math.ceil(Object.keys(groups).length / ITEMS_PER_PAGE);
     res.send({ urls: paginatedUrls, totalPages });
