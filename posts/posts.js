@@ -242,9 +242,7 @@ router.get("/all/:groupId", async (req, res) => {
       return res.status(404).send("No files found for the given groupId");
     }
 
-    const urls = [];
-
-    files.forEach((file) => {
+    const urls = files.map((file) => {
       const url = `https://ddauto.up.railway.app/api/post/assets/${file.filename}`;
       const metadata = file.metadata;
 
@@ -263,13 +261,13 @@ router.get("/all/:groupId", async (req, res) => {
         price: metadata.price ? metadata.price[0] : ""
       };
 
-      urls.push({
+      return {
         url,
         ...data
-      });
+      };
     });
 
-    res.send({ urls: urls.slice(0, 1) });
+    res.send({ urls });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
