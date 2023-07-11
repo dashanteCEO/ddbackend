@@ -442,7 +442,7 @@ router.get("/searchretbrand/:brand", async (req, res) => {
         if (!groups[groupId]) {
           groups[groupId] = {
             url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
-            // Corrected property names to use data object
+            groupId,
             brand: data.brand[0],
             year: data.year[0],
             color: data.color[0],
