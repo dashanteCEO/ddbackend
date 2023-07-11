@@ -236,31 +236,40 @@ router.get("/all/:groupId", async (req, res) => {
   try {
     const groupId = req.params.groupId; // Get the groupId from the URL params
     const files = await gfs.find({ "metadata.groupId": groupId }).toArray();
+    
     // Do files exist for the groupId?
     if (!files || files.length === 0) {
       return res.status(404).send("No files found for the given groupId");
     }
 
-  const urls = files.map((file) =>{
+    const urls = [];
 
-     return {
-      url:`https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
-      brand: file.metadata.brand,
-      color:file.metadata.color,
-      model: file.metadata.model,
-      year: file.metadata.year,
-      bodyType: file.metadata.bodyType,
-      specs: file.metadata.specs,
-      mileage : file.metadata.mileage,
-      seats : file.metadata.seats,
-      feul : file.metadata.feul,
-      transmission : file.metadata.transmission,
-      steering : file.metadata.steering,
-      price : file.metadata.price,
-    }
-  });
+    files.forEach((file) => {
+      const url = `https://ddauto.up.railway.app/api/post/assets/${file.filename}`;
+      const metadata = file.metadata;
 
-    res.send({ urls });
+      const data = {
+        brand: metadata.brand ? metadata.brand[0] : "",
+        color: metadata.color ? metadata.color[0] : "",
+        model: metadata.model ? metadata.model[0] : "",
+        year: metadata.year ? metadata.year[0] : "",
+        bodyType: metadata.bodyType ? metadata.bodyType[0] : "",
+        specs: metadata.specs ? metadata.specs[0] : "",
+        mileage: metadata.mileage ? metadata.mileage[0] : "",
+        seats: metadata.seats ? metadata.seats[0] : "",
+        feul: metadata.feul ? metadata.feul[0] : "",
+        transmission: metadata.transmission ? metadata.transmission[0] : "",
+        steering: metadata.steering ? metadata.steering[0] : "",
+        price: metadata.price ? metadata.price[0] : ""
+      };
+
+      urls.push({
+        url,
+        ...data
+      });
+    });
+
+    res.send({ urls: urls.slice(0, 1) });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
