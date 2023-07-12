@@ -125,7 +125,7 @@ router.get("/vehicles/:bodyType", async (req, res) => {
         if (!groups[groupId]) {
           groups[groupId] = {
             groupId,
-            url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
+            url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
             brand: brand,
             model: model,
             year: year,
@@ -185,7 +185,7 @@ router.get("/featured", async (req, res) => {
           // Check if group already exists
           if (!groups[groupId]) {
             groups[groupId] = {
-              url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
+              url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
               brand: brand,
               model: model,
               year: year,
@@ -243,7 +243,7 @@ router.get("/all/:groupId", async (req, res) => {
     }
 
     const urls = files.map((file) => {
-      const url = `https://ddauto.up.railway.app/api/post/assets/${file.filename}`;
+      const url = `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`;
       const metadata = file.metadata;
 
       const data = {
@@ -311,7 +311,7 @@ router.get("/test", async (req, res) => {
         const trim = file.metadata.trim;
         if (!groups[groupId]) {
           groups[groupId] = {
-            url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
+            url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
             brand: brand,
             model: model,
             year: year,
@@ -376,16 +376,19 @@ router.get("/search/:brand", async (req, res) => {
 
     const response = {
       groupId: file.metadata.groupId,
-      url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
+      url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
       brand: brand,
       model: model,
     };
+
     res.send(response);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
   }
 });
+
+
 
 router.get("/searchretbrand/:brand", async (req, res) => {
   try {
@@ -428,7 +431,7 @@ router.get("/searchretbrand/:brand", async (req, res) => {
 
         if (!groups[groupId]) {
           groups[groupId] = {
-            url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
+            url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
             groupId,
             brand: data.brand[0],
             year: data.year[0],
