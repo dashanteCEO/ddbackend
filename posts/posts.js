@@ -380,7 +380,6 @@ router.get("/search/:brand", async (req, res) => {
       brand: brand,
       model: model,
     };
-
     res.send(response);
   } catch (error) {
     console.error(error);
