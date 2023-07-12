@@ -258,7 +258,8 @@ router.get("/all/:groupId", async (req, res) => {
         feul: metadata.feul ? metadata.feul[0] : "",
         transmission: metadata.transmission ? metadata.transmission[0] : "",
         steering: metadata.steering ? metadata.steering[0] : "",
-        price: metadata.price ? metadata.price[0] : ""
+        price: metadata.price ? metadata.price[0] : "",
+        trim: metadata.trim ? metadata.trim[0] : ""
       };
 
       return {
