@@ -364,46 +364,30 @@ router.get("/test", async (req, res) => {
 router.get("/search/:brand", async (req, res) => {
   try {
     const brandQuery = req.params.brand; // Get the brand query from the URL params
-    const regex = new RegExp(brandQuery, "i"); // Create a case-insensitive regex for the brand query
+    const regex = new RegExp(`^${brandQuery}$`, "i"); // Create a case-insensitive regex for the exact brand query match
 
-    const files = await gfs
-      .find({ "metadata.brand": regex })
-      .toArray(); // Find files matching the brand query
-    if (!files || files.length === 0) {
-      return res.status(404).send("No files found");
+    const file = await gfs.findOne({ "metadata.brand": regex }); // Find a single file matching the brand query
+    if (!file) {
+      return res.status(404).send("No file found");
     }
-    const groups = {};
 
-    files.forEach((file) => {
-      if (file.metadata && file.metadata.groupId) {
-        // check if any metadata field is null
-        const metadataValues = Object.values(file.metadata);
-        if (metadataValues.some((value) => value === null)) {
-          return; // skip this file
-        }
-        const groupId = file.metadata.groupId;
-        const brand = file.metadata.brand[0]; // Access the first element of the brand array
-        const model = file.metadata.model[0]; // Access the first element of the model array
+    const brand = file.metadata.brand[0]; // Access the first element of the brand array
+    const model = file.metadata.model[0]; // Access the first element of the model array
 
-        if (!groups[brand]) {
-          groups[brand] = {
-            groupId: groupId,
-            url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
-            brand: brand,
-            model: model,
-          };
-        }
-      }
-    });
+    const response = {
+      groupId: file.metadata.groupId,
+      url: `https://ddauto.up.railway.app/api/post/assets/${file.filename}`,
+      brand: brand,
+      model: model,
+    };
 
-    const urls = Object.values(groups);
-
-    res.send({ urls });
+    res.send(response);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
   }
 });
+
 
 
 router.get("/searchretbrand/:brand", async (req, res) => {
