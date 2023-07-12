@@ -388,8 +388,6 @@ router.get("/search/:brand", async (req, res) => {
   }
 });
 
-
-
 router.get("/searchretbrand/:brand", async (req, res) => {
   try {
     const brand = req.params.brand; // Get the brand from the URL params
