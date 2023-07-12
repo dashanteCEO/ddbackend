@@ -259,7 +259,7 @@ router.get("/all/:groupId", async (req, res) => {
         transmission: metadata.transmission ? metadata.transmission[0] : "",
         steering: metadata.steering ? metadata.steering[0] : "",
         price: metadata.price ? metadata.price[0] : "",
-        trim: metadata.trim ? metadata.trim[0] : ""
+        price: metadata.price ? metadata.trim[0] : ""
       };
 
       return {
@@ -365,29 +365,46 @@ router.get("/test", async (req, res) => {
 router.get("/search/:brand", async (req, res) => {
   try {
     const brandQuery = req.params.brand; // Get the brand query from the URL params
-    const regex = new RegExp(`^${brandQuery}$`, "i"); // Create a case-insensitive regex for the exact brand query match
-
-    const file = await gfs.findOne({ "metadata.brand": regex }); // Find a single file matching the brand query
-    if (!file) {
-      return res.status(404).send("No file found");
+    const regex = new RegExp(brandQuery, "i"); // Create a case-insensitive regex for the brand query
+    const files = await gfs
+      .find({ "metadata.brand": regex })
+      .toArray(); // Find files matching the brand query
+    if (!files || files.length === 0) {
+      return res.status(404).send("No files found");
     }
-
-    const brand = file.metadata.brand[0]; // Access the first element of the brand array
-    const model = file.metadata.model[0]; // Access the first element of the model array
-
-    const response = {
-      groupId: file.metadata.groupId,
-      url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
-      brand: brand,
-      model: model,
-    };
-
-    res.send(response);
+    let secondGroup = null; // Variable to store the second group
+    files.forEach((file) => {
+      if (file.metadata && file.metadata.groupId) {
+        // check if any metadata field is null
+        const metadataValues = Object.values(file.metadata);
+        if (metadataValues.some((value) => value === null)) {
+          return; // skip this file
+        }
+        const groupId = file.metadata.groupId;
+        const brand = file.metadata.brand[0];
+        const model = file.metadata.model[0];
+        // Check if the brand already exists in the groups object
+        if (!secondGroup) {
+          secondGroup = {
+            groupId: groupId,
+            url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
+            brand: brand,
+            model: model,
+            // Add other properties here
+          };
+        }
+      }
+    });
+    if (!secondGroup) {
+      return res.status(404).send("No files found");
+    }
+    res.send({ urls: [secondGroup] });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
   }
 });
+
 
 
 
