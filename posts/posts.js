@@ -259,6 +259,7 @@ router.get("/all/:groupId", async (req, res) => {
         steering: metadata.steering,
         price: metadata.price,
         trim: metadata.trim,
+        bodyType: metadata.bodyType,
       };
 
       return {
@@ -309,6 +310,8 @@ router.get("/test", async (req, res) => {
         const steering = file.metadata.steering;
         const price = file.metadata.price;
         const trim = file.metadata.trim;
+        const bodyType = file.metadata.bodyType
+
         if (!groups[groupId]) {
           groups[groupId] = {
             url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
@@ -324,6 +327,7 @@ router.get("/test", async (req, res) => {
             seats: seats,
             price: price,
             trim: trim,
+            bodyType: bodyType
           };
         }
       }
