@@ -96,15 +96,21 @@ router.delete("/delete/:groupId", async (req, res) => {
 router.get("/vehicles/:bodyType", async (req, res) => {
   try {
     const files = await gfs.find().toArray();
-    const bodyType = req.params.bodyType
+    const bodyType = req.params.bodyType.toLowerCase();
     const filteredFiles = files.filter((file) => {
-      return file.metadata && file.metadata.bodyType && file.metadata.bodyType === bodyType; // convert to lowercase
+      return (
+        file.metadata &&
+        file.metadata.bodyType &&
+        file.metadata.bodyType.toLowerCase() === bodyType
+      );
     });
-    
+
     if (!filteredFiles || filteredFiles.length === 0) {
-      return res.status(404).send("No vehicles found with the specified bodyType");
+      return res
+        .status(404)
+        .send("No vehicles found with the specified bodyType");
     }
-    
+
     const groups = {};
 
     filteredFiles.forEach((file) => {
@@ -115,13 +121,14 @@ router.get("/vehicles/:bodyType", async (req, res) => {
         const color = file.metadata.color;
         const year = file.metadata.year;
         const specs = file.metadata.specs;
-        const mileage = file.metadata.mileage
-        const seats = file.metadata.seats
-        const feul = file.metadata.feul
-        const transmission = file.metadata.transmission
-        const steering = file.metadata.steering
-        const price = file.metadata.price
-        const trim = file.metadata.trim
+        const mileage = file.metadata.mileage;
+        const seats = file.metadata.seats;
+        const feul = file.metadata.feul;
+        const transmission = file.metadata.transmission;
+        const steering = file.metadata.steering;
+        const price = file.metadata.price;
+        const trim = file.metadata.trim;
+
         if (!groups[groupId]) {
           groups[groupId] = {
             groupId,
@@ -133,23 +140,24 @@ router.get("/vehicles/:bodyType", async (req, res) => {
             specs: specs,
             bodyType: bodyType,
             mileage: mileage,
-            feul:feul,
+            feul: feul,
             steering: steering,
             transmission: transmission,
-            seats:seats,
-            price:price,
-            trim:trim
+            seats: seats,
+            price: price,
+            trim: trim,
           };
         }
       }
     });
-    
+
     res.send(Object.values(groups));
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal server error");
   }
 });
+
 
 
 router.get("/featured", async (req, res) => {
