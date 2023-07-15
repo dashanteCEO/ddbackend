@@ -236,7 +236,7 @@ router.get("/all/:groupId", async (req, res) => {
   try {
     const groupId = req.params.groupId; // Get the groupId from the URL params
     const files = await gfs.find({ "metadata.groupId": groupId }).toArray();
-    
+
     // Do files exist for the groupId?
     if (!files || files.length === 0) {
       return res.status(404).send("No files found for the given groupId");
@@ -247,19 +247,18 @@ router.get("/all/:groupId", async (req, res) => {
       const metadata = file.metadata;
 
       const data = {
-        brand: metadata.brand ? metadata.brand[0] : "",
-        color: metadata.color ? metadata.color[0] : "",
-        model: metadata.model ? metadata.model[0] : "",
-        year: metadata.year ? metadata.year[0] : "",
-        bodyType: metadata.bodyType ? metadata.bodyType[0] : "",
-        specs: metadata.specs ? metadata.specs[0] : "",
-        mileage: metadata.mileage ? metadata.mileage[0] : "",
-        seats: metadata.seats ? metadata.seats[0] : "",
-        feul: metadata.feul ? metadata.feul[0] : "",
-        transmission: metadata.transmission ? metadata.transmission[0] : "",
-        steering: metadata.steering ? metadata.steering[0] : "",
-        price: metadata.price ? metadata.price[0] : "",
-        price: metadata.price ? metadata.trim[0] : ""
+        brand: metadata.brand ? metadata.brand[3] : "",
+        color: metadata.color ? metadata.color[3] : "",
+        model: metadata.model ? metadata.model[3] : "",
+        year: metadata.year ? metadata.year[3] : "",
+        specs: metadata.specs ? metadata.specs[3] : "",
+        mileage: metadata.mileage ? metadata.mileage[3] : "",
+        seats: metadata.seats ? metadata.seats[3] : "",
+        feul: metadata.feul ? metadata.feul[3] : "",
+        transmission: metadata.transmission ? metadata.transmission[3] : "",
+        steering: metadata.steering ? metadata.steering[3] : "",
+        price: metadata.price ? metadata.price[3] : "",
+        trim: metadata.trim ? metadata.trim[3] : "",
       };
 
       return {
