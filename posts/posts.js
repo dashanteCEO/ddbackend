@@ -301,7 +301,6 @@ router.get("/test", async (req, res) => {
         const model = file.metadata.model;
         const color = file.metadata.color;
         const year = file.metadata.year;
-        const bodyType = file.metadata.bodyType;
         const specs = file.metadata.specs;
         const mileage = file.metadata.mileage;
         const seats = file.metadata.seats;
@@ -318,7 +317,6 @@ router.get("/test", async (req, res) => {
             year: year,
             color: color,
             specs: specs,
-            bodyType: bodyType,
             mileage: mileage,
             feul: feul,
             steering: steering,
@@ -337,19 +335,18 @@ router.get("/test", async (req, res) => {
       .map(([groupId, data]) => ({
         groupId,
         url: data.url,
-        brand: data.brand[0],
-        year: data.year[0],
-        color: data.color[0],
-        bodyType: data.bodyType[0],
-        model: data.model[0],
-        specs: data.specs[0],
-        mileage: data.mileage[0],
-        feul: data.feul[0],
-        seats: data.seats[0],
-        transmission: data.transmission[0],
-        steering: data.steering[0],
-        price: data.price[0],
-        trim: data.trim[0],
+        brand: data.brand,
+        year: data.year,
+        color: data.color,
+        model: data.model,
+        specs: data.specs,
+        mileage: data.mileage,
+        feul: data.feul,
+        seats: data.seats,
+        transmission: data.transmission,
+        steering: data.steering,
+        price: data.price,
+        trim: data.trim,
       }))
       .slice(startIndex, endIndex);
 
@@ -360,6 +357,7 @@ router.get("/test", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
 
 
 router.get("/search/:brand", async (req, res) => {
