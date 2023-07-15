@@ -351,6 +351,7 @@ router.get("/test", async (req, res) => {
         steering: data.steering,
         price: data.price,
         trim: data.trim,
+        bodyType: data.bodyType
       }))
       .slice(startIndex, endIndex);
 
