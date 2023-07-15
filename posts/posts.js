@@ -96,21 +96,15 @@ router.delete("/delete/:groupId", async (req, res) => {
 router.get("/vehicles/:bodyType", async (req, res) => {
   try {
     const files = await gfs.find().toArray();
-    const bodyType = req.params.bodyType.toLowerCase();
+    const bodyType = req.params.bodyType
     const filteredFiles = files.filter((file) => {
-      return (
-        file.metadata &&
-        file.metadata.bodyType &&
-        file.metadata.bodyType.toLowerCase() === bodyType
-      );
+      return file.metadata && file.metadata.bodyType && file.metadata.bodyType === bodyType; // convert to lowercase
     });
-
+    
     if (!filteredFiles || filteredFiles.length === 0) {
-      return res
-        .status(404)
-        .send("No vehicles found with the specified bodyType");
+      return res.status(404).send("No vehicles found with the specified bodyType");
     }
-
+    
     const groups = {};
 
     filteredFiles.forEach((file) => {
@@ -120,18 +114,17 @@ router.get("/vehicles/:bodyType", async (req, res) => {
         const model = file.metadata.model;
         const color = file.metadata.color;
         const year = file.metadata.year;
+        const bodyType = file.metadata.bodyType;
         const specs = file.metadata.specs;
-        const mileage = file.metadata.mileage;
-        const seats = file.metadata.seats;
-        const feul = file.metadata.feul;
-        const transmission = file.metadata.transmission;
-        const steering = file.metadata.steering;
-        const price = file.metadata.price;
-        const trim = file.metadata.trim;
-
+        const mileage = file.metadata.mileage
+        const seats = file.metadata.seats
+        const feul = file.metadata.feul
+        const transmission = file.metadata.transmission
+        const steering = file.metadata.steering
+        const trim = file.metadata.trim
+        const price = file.metadata.price
         if (!groups[groupId]) {
           groups[groupId] = {
-            groupId,
             url: `https://ddbackend-hctu.onrender.com/api/post/assets/${file.filename}`,
             brand: brand,
             model: model,
@@ -146,18 +139,18 @@ router.get("/vehicles/:bodyType", async (req, res) => {
             seats: seats,
             price: price,
             trim: trim,
+            groupId
           };
         }
       }
     });
-
+    
     res.send(Object.values(groups));
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal server error");
   }
 });
-
 
 
 router.get("/featured", async (req, res) => {
