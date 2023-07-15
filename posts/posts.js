@@ -247,18 +247,18 @@ router.get("/all/:groupId", async (req, res) => {
       const metadata = file.metadata;
 
       const data = {
-        brand: metadata.brand ? metadata.brand[3] : "",
-        color: metadata.color ? metadata.color[3] : "",
-        model: metadata.model ? metadata.model[3] : "",
-        year: metadata.year ? metadata.year[3] : "",
-        specs: metadata.specs ? metadata.specs[3] : "",
-        mileage: metadata.mileage ? metadata.mileage[3] : "",
-        seats: metadata.seats ? metadata.seats[3] : "",
-        feul: metadata.feul ? metadata.feul[3] : "",
-        transmission: metadata.transmission ? metadata.transmission[3] : "",
-        steering: metadata.steering ? metadata.steering[3] : "",
-        price: metadata.price ? metadata.price[3] : "",
-        trim: metadata.trim ? metadata.trim[3] : "",
+        brand: metadata.brand,
+        color: metadata.color,
+        model: metadata.model,
+        year: metadata.year,
+        specs: metadata.specs,
+        mileage: metadata.mileage,
+        seats: metadata.seats,
+        feul: metadata.feul,
+        transmission: metadata.transmission,
+        steering: metadata.steering,
+        price: metadata.price,
+        trim: metadata.trim,
       };
 
       return {
@@ -273,6 +273,7 @@ router.get("/all/:groupId", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
 
 const ITEMS_PER_PAGE = 20;
 
