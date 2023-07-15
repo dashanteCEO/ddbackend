@@ -363,8 +363,6 @@ router.get("/test", async (req, res) => {
   }
 });
 
-
-
 router.get("/search/:brand", async (req, res) => {
   try {
     const brandQuery = req.params.brand; // Get the brand query from the URL params
@@ -384,8 +382,8 @@ router.get("/search/:brand", async (req, res) => {
           return; // skip this file
         }
         const groupId = file.metadata.groupId;
-        const brand = file.metadata.brand[0];
-        const model = file.metadata.model[0];
+        const brand = file.metadata.brand;
+        const model = file.metadata.model;
         // Check if the brand already exists in the groups object
         if (!secondGroup) {
           secondGroup = {
@@ -407,9 +405,6 @@ router.get("/search/:brand", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
-
-
-
 
 router.get("/searchretbrand/:brand", async (req, res) => {
   try {
